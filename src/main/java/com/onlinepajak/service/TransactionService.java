@@ -27,7 +27,7 @@ public class TransactionService {
         validateFile(input.getFile());
         Set<String> transactionsStringFromFile = fileService.getTransactionsStringFromFile(input.getFile());
         Set<Transaction> transactions = getTransactions(transactionsStringFromFile);
-        InvoiceOutputData invoiceOutputData = getInvoiceOutput(input.getFile().getOriginalFilename(), input.getTaxType(), input.getCustomer_id(), transactions);
+        InvoiceOutputData invoiceOutputData = getInvoiceOutput(input.getTaxType(), input.getCustomer_id(), transactions);
 
         return invoiceOutputData;
     }
@@ -42,7 +42,7 @@ public class TransactionService {
         }
     }
 
-    private InvoiceOutputData getInvoiceOutput(final String filename, final TaxType taxType, final Integer customer_id, final Set<Transaction> transactions) {
+    private InvoiceOutputData getInvoiceOutput(final TaxType taxType, final Integer customer_id, final Set<Transaction> transactions) {
 
         validateInputValue(transactions, customer_id, taxType);
 
