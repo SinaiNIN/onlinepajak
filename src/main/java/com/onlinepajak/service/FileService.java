@@ -25,11 +25,16 @@ public class FileService {
 
     private StringTokenizer readFile(final MultipartFile file) throws IOException {
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
-        String line = reader.lines().collect(Collectors.joining());
-        if (line == null || line.isEmpty() || line.isBlank()) {
-            throw new NotFoundTransactionValueInFileException(file.getOriginalFilename());
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            String line = reader.lines().collect(Collectors.joining());
+            if (line.isEmpty() || line.isBlank()) {
+                throw new NotFoundTransactionValueInFileException(file.getOriginalFilename());
+            }
+            return new StringTokenizer(line, ";");
+        } finally {
+            reader.close();
         }
-        return new StringTokenizer(line, ";");
     }
 }
